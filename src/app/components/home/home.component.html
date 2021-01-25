@@ -1,11 +1,2 @@
-<div class="row row-cols-1 row-cols-md-4 g-4">
-    <div *ngFor="let release of newReleases" class="col">
-        <div class="card">
-            <img [src]="release.images[0].url" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{release.name}}</h5>
-                <span *ngFor="let artist of release.artists" class="badge rounded-pill bg-dark">{{artist.name}}</span>
-            </div>
-        </div>
-    </div>
-</div>
+<app-loading *ngIf="loading" class="m-5"></app-loading>
+<app-cards [items] = "newReleases"></app-cards>

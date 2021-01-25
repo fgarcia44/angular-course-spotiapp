@@ -4,14 +4,6 @@
     </div>
 </div>
 
-<div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-    <div *ngFor="let artist of searchedArtists" class="col">
-        <div class="card">
-            <img [src]="artist.images[0].url" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{artist.name}}</h5>
-            </div>
-        </div>
-    </div>
-</div>
+<app-loading *ngIf="loading" class="m-5"></app-loading>
 
+<app-cards *ngIf="!loading" [items] = "searchedArtists"></app-cards>

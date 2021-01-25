@@ -8,26 +8,40 @@ import { map } from 'rxjs/operators';
 })
 export class SpotifyService {
 
-  authorizationToken = 'Bearer BQAcJCFWNCnmq2qNKyxP-rbxdZCNQFG4v83XcKPCU6otg_r9NmBa61lBFDaRx8v9FkbiIRZJymAfX-xw3o4';
-  headers = new HttpHeaders({
-    'Authorization': this.authorizationToken
-  });
-
   constructor( private http: HttpClient) {
     console.log('Loading Spotify Service');
   }
 
+  getQuery(query: string){
+
+    const url = `https://api.spotify.com/v1/${query}`;
+
+    const authorizationToken = 'Bearer BQAffHFMsZOKEvMjiVWOBQja-b6U5ev02uJXE0WT8QmCSvB-itCSYDimyvk1sBt6LGnZrdcxeBIsJg8ngJQ';
+    const headers = new HttpHeaders({
+      'Authorization': authorizationToken
+    });
+
+    return this.http.get(url, { headers });
+  }
+
   getNewReleases() {
 
-    return this.http.get('https://api.spotify.com/v1/browse/new-releases', { headers: this.headers })
+    return this.getQuery('browse/new-releases')
         .pipe( map (data => data['albums'].items));
 
   }
 
   searchArtists( term: string) {
 
-    return this.http.get(`https://api.spotify.com/v1/search?q=${term}&type=artist`, { headers: this.headers })
+    return this.getQuery(`search?q=${term}&type=artist`)
         .pipe( map (data => data['artists'].items));
+
+  }
+
+  getArtist( id: string) {
+
+    return this.getQuery(`artists/${id}`)
+        .pipe(); //TODO why do I need the pipe? otherwise it doesn't work!
 
   }
 }
