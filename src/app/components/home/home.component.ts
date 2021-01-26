@@ -11,15 +11,26 @@ export class HomeComponent /*implements OnInit*/ {
 
     newReleases: any[] = [];
     loading: boolean;
+    error: {};
 
     constructor(private spotify: SpotifyService) {
 
+        this.error = {
+            isError: false,
+            message: null
+        };
         this.loading = true;
         spotify.getNewReleases()
             .subscribe((data: any) => {
                 console.log(data);
                 this.newReleases = data;
                 this.loading = false;
+            }, ( reject) => {
+                this.loading = false;
+                this.error = {
+                    isError: true,
+                    message: reject.error.error.message
+                };
             });
     }
 
